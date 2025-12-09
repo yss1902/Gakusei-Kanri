@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"/>
+</head>
+<body class="container py-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">Student List</h1>
+    <a class="btn btn-primary" th:href="@{/students/new}">Add Student</a>
+</div>
+<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Birth Year</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${students.isEmpty()}">
+        <td colspan="5" class="text-center">No students available</td>
+    </tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.fullName}"></td>
+        <td th:text="${student.birthYear}"></td>
+        <td><span th:text="${student.status}"></span></td>
+        <td>
+            <a th:href="@{'/students/' + ${student.id}}" class="btn btn-sm btn-outline-secondary">Detail</a>
+            <a th:href="@{'/students/' + ${student.id} + '/edit'}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <form th:action="@{'/students/' + ${student.id} + '/delete'}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this student?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
